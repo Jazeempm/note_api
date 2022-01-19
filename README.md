@@ -1,4 +1,4 @@
-# Simple Invoice generating API 
+# Notes app API 
 
 ## Requirements
 - Python 3.10.1
