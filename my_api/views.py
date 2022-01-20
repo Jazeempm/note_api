@@ -20,23 +20,15 @@ class CreateUserView(CreateAPIView):
     serializer_class = UserSerializer
 
 
-    # def create(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #     headers = self.get_success_headers(serializer.data)
-    #     return Response({'Message': 'You have successfully register'}, status=status.HTTP_201_CREATED, headers=headers)
-
-
 class NotesViewSet(ModelViewSet):
 
-    queryset = Note.objects.all()
+    queryset = Note.objects.order_by('-created')
     serializer_class = NotesSerializer
     permission_classes = [IsAuthenticated]
     # parser_classes = [MultiPartParser]
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user).select_related("user")
+        return self.queryset.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
